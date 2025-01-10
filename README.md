@@ -7,7 +7,7 @@
 ```bash
 sudo apt update
 sudo apt install build-essential
-curl https://sh.rustup.rs -sSf | sh
+curl https://sh.rustup.rs -sSf | sh 
 source "$HOME/.cargo/env"
 rustc -V
 git clone https://github.com/sudhamshreddy7/rusty_ls.git
@@ -17,6 +17,7 @@ rustc main.rs -o rusty_ls
 sudo mv rusty_ls /usr/local/bin/
 sudo chmod +x /usr/local/bin/rusty_ls
 ```
+2. Or just run the bash command present in the file(install_rusty_ls.sh)
 3. To test the command go to any folder you and type below command:
 ```bash
 rusty_ls
