@@ -7,12 +7,12 @@ use helper::is_substring_in_file;
 
 #[derive(PartialEq)]
 enum OPERATIONS{
-    ls,
-    deep_ls,
-    search,
-    deep_search,
-    help,
-    error
+    Ls,
+    DeepLs,
+    Search,
+    DeepSearch,
+    Help,
+    Error
 }
 fn print_tree(path: &Path, depth: usize,flag_deep: i32,search : bool,key:&str) {
     // Print indentation based on depth
@@ -22,15 +22,15 @@ fn print_tree(path: &Path, depth: usize,flag_deep: i32,search : bool,key:&str) {
 
     // Print the current file/folder name
     if let Some(name) = path.file_name() {
-        if search  {
-            match is_substring_in_file(path.to_str().unwrap(), key) {
-                Ok(true) => println!("|-- {}", name.to_string_lossy()),
-                Ok(false) => todo!(),
-                Err(e) => todo!(),
+        if search && !path.is_dir() {
+            match  is_substring_in_file(path.to_str().unwrap(), key) {
+                Ok(true) => println!("|-- {}7", name.to_string_lossy()),
+                Ok(false) => {},
+                Err(_e) => {},
             }
         }
         else if !search {
-            println!("|-- {}", name.to_string_lossy());
+            println!("|-- {}7", name.to_string_lossy());
         }
     }
 
@@ -52,59 +52,59 @@ fn print_tree(path: &Path, depth: usize,flag_deep: i32,search : bool,key:&str) {
 }
 /*
     Types of operations:
-    1. regular ls
-    2. deep ls --d
-    3. search for a word --search "string"
-    4. search for a word --search "string" --d
+    1. regular Ls
+    2. deep Ls --d
+    3. Search for a word --Search "string"
+    4. Search for a word --Search "string" --d
     5. doc --h
 
 */
 fn main() {
-    let mut type_operation = OPERATIONS::error;
+    let mut type_operation = OPERATIONS::Error;
     let mut key = String::new();
     let args: Vec<String> = env::args().collect();
     if args.len() >= 2 {
         if args[1] == "--d" {
-            type_operation = OPERATIONS::deep_ls;
+            type_operation = OPERATIONS::DeepLs;
         }else if args[1] == "--h" {
-            type_operation = OPERATIONS::help;
+            type_operation = OPERATIONS::Help;
         }else if args[1] == "--search" {
             if args.len() == 2{
-                panic!("Invalid flag!!\n please type rusty_ls --help for detailed commands usage");
+                panic!("Invalid flag!!\n please type rusty_ls --Help for detailed commands usage");
             }
             key = args[2].clone();
             if args.len() == 3{
-                type_operation = OPERATIONS::search;
+                type_operation = OPERATIONS::Search;
             }else{
                 if args[3] == "--d"{
-                    type_operation = OPERATIONS::deep_search;
+                    type_operation = OPERATIONS::DeepSearch;
                 }else{
-                    panic!("Invalid flag!!\n please type rusty_ls --help for detailed commands usage");
+                    panic!("Invalid flag!!\n please type rusty_ls --Help for detailed commands usage");
                 }
             }
         }
     } else{
-        type_operation = OPERATIONS::ls;
+        type_operation = OPERATIONS::Ls;
     }
     let binding = env::current_dir().unwrap();
     let dir = binding.to_str().unwrap(); // Replace with the desired directory path
     let path = Path::new(dir);
     let key = key.as_str();
-    if type_operation==OPERATIONS::ls {
+    if type_operation==OPERATIONS::Ls {
         println!("{}",  env::current_dir().unwrap().to_str().unwrap());
         println!("List of files and directories in current directory:");
         print_tree(path, 0,1,false,key);
-    }else if type_operation==OPERATIONS::deep_ls{
+    }else if type_operation==OPERATIONS::DeepLs {
         println!("{}", path.display());
         println!("List of files and directories in current and below directory:");
         print_tree(path, 0,i32::max_value(),false,key);
-    }else if type_operation==OPERATIONS::search{
+    }else if type_operation==OPERATIONS::Search {
         println!("List of files and directories which contains word {key} in current directory are:");
         print_tree(path, 0,1,true,key);
-    }else if type_operation==OPERATIONS::deep_search{
+    }else if type_operation==OPERATIONS::DeepSearch {
         println!("List of files and directories which contains word {key} in current and below directory are:");
         print_tree(path, 0,i32::max_value(),true,key);
-    }else if type_operation==OPERATIONS::help{
+    }else if type_operation==OPERATIONS::Help {
         help();
     }else{
         println!("please enter valid command");

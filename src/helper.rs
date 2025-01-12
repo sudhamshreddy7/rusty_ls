@@ -20,7 +20,7 @@ pub(crate) fn is_substring_in_file(file_path: &str, target: &str) -> Result<bool
 
 fn main() {
     let file_path = "sample.txt";  // Specify the path to your file
-    let target_string = "Rust";    // Specify the substring you want to search for
+    let target_string = "Rust";    // Specify the substring you want to Search for
 
     match is_substring_in_file(file_path, target_string) {
         Ok(true) => println!("The substring '{}' is present in the file.", target_string),
