@@ -103,8 +103,24 @@ fn main() {
         println!("Please enter a valid command.");
         help();
     }
+    println!();
 }
 
 fn help() {
-    println!("usage: rusty_ls [OPERATION]");
+    println!("  RRR   U   U  SSS  TTTTT ");
+    println!(" R   R  U   U S       T   ");
+    println!(" RRRR   U   U  SSS    T   ");
+    println!(" R  R   U   U     S   T   ");
+    println!(" R   R  UUUUU  SSS    T   ");
+    println!("usage: rusty_ls [OPERATION] 🦀");
+    println!();
+    println!("OPERATION can be one of the following:");
+    println!("  -- No OPERATION: List files and directories in the current level");
+    println!("  --d             List files recursively");
+    println!("  --search <key>  Search for a key in files");
+    println!("  --help          Show this help message");
+    println!();
+    println!("Feel free to try the following commands 🦀 (Note: They are in development):");
+    println!("  --search <key> --d  Search for a key in files recursively");
+
 }
