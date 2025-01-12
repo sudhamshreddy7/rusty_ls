@@ -14,20 +14,17 @@ enum OPERATIONS {
     Error,
 }
 
-fn print_tree(path: &Path, depth: usize, flag_deep: i32, search: bool, key: &str) -> bool{
+fn print_tree(path: &Path, depth: usize, flag_deep: i32, search: bool, key: &str) {
     // Print indentation based on depth
     for _ in 0..depth {
         print!("|   ");
     }
-    let mut consider = !search;
+
     // Print the current file/folder name
     if let Some(name) = path.file_name() {
         if search && !path.is_dir() {
             match is_substring_in_file(path.to_str().unwrap(), key) {
-                Ok(true) => {
-                    println!("|-- {}", name.to_string_lossy());
-                    consider = true;
-                },  // Only print file if the key is found
+                Ok(true) => println!("|-- {}", name.to_string_lossy()),  // Only print file if the key is found
                 Ok(false) => {},
                 Err(_e) => {},  // Handle any errors
             }
@@ -43,7 +40,7 @@ fn print_tree(path: &Path, depth: usize, flag_deep: i32, search: bool, key: &str
                 for entry in entries {
                     if let Ok(entry) = entry {
                         if flag_deep > 0 {
-                           consider= consider || print_tree(&entry.path(), depth + 1, flag_deep - 1, search, key);
+                            print_tree(&entry.path(), depth + 1, flag_deep - 1, search, key);
                         }
                     }
                 }
@@ -51,7 +48,6 @@ fn print_tree(path: &Path, depth: usize, flag_deep: i32, search: bool, key: &str
             Err(e) => eprintln!("Error reading directory '{}': {}", path.display(), e),
         }
     }
-    consider
 }
 
 fn main() {
