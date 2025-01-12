@@ -26,7 +26,7 @@ fn print_tree(path: &Path, depth: usize,flag_deep: i32,search : bool,key:&str) {
             match is_substring_in_file(path.to_str().unwrap(), key) {
                 Ok(true) => println!("|-- {}", name.to_string_lossy()),
                 Ok(false) => todo!(),
-                Err(e) => println!("Error reading the file: {}", e),
+                Err(e) => todo!(),
             }
         }
         else if !search {
